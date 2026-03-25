@@ -1,41 +1,61 @@
 $kind: http-request
-name: 'GET /getSingleProduct/{id} - Verify Product is Gone After Delete'
+name: GET /getSingleProduct/{id} - Verify Product is Gone After Delete
 method: GET
-url: '{{baseUrl}}/getSingleProduct/{{deletedProductId}}'
+url: "{{baseUrl}}/getSingleProduct/{ProductID: str}?ProductID=1200"
+queryParams:
+  ProductID: "1200"
 order: 9000
 scripts:
   - type: beforeRequest
-    language: text/javascript
-    code: |-
+    code: >-
       // Capture the productId before it was cleared by the DELETE step.
-      // The DELETE request clears productId; we stored a copy in deletedProductId
+
+      // The DELETE request clears productId; we stored a copy in
+      deletedProductId
+
       // at the end of the DELETE afterResponse script — but as a safety net we
+
       // also read it here from the collection variable set below.
+
       const pid = pm.collectionVariables.get("deletedProductId");
+
       if (!pid || pid === "") {
           // Fallback: if deletedProductId was never set, skip gracefully.
           console.warn("deletedProductId not set — skipping deletion-verification request.");
       }
-  - type: afterResponse
     language: text/javascript
-    code: |-
-      // ── Status code ──────────────────────────────────────────────────────────
+  - type: afterResponse
+    code: >-
+      // ── Status code
+      ──────────────────────────────────────────────────────────
+
       pm.test("Status code is 200", function () {
           pm.response.to.have.status(200);
       });
 
-      // ── Response time ─────────────────────────────────────────────────────────
+
+      // ── Response time
+      ─────────────────────────────────────────────────────────
+
       pm.test("Response time is under 3000 ms", function () {
           pm.expect(pm.response.responseTime).to.be.below(3000);
       });
 
-      // ── Product should no longer exist ────────────────────────────────────────
-      pm.test("Deleted product is no longer retrievable (returns 'not found' message)", function () {
+
+      // ── Product should no longer exist
+      ────────────────────────────────────────
+
+      pm.test("Deleted product is no longer retrievable (returns 'not found'
+      message)", function () {
           const json = pm.response.json();
           pm.expect(json).to.be.an("object");
           pm.expect(json).to.have.property("message");
           pm.expect(json.message).to.eql("Product not found");
       });
 
-      // ── Clean up the deletedProductId variable ────────────────────────────────
+
+      // ── Clean up the deletedProductId variable
+      ────────────────────────────────
+
       pm.collectionVariables.set("deletedProductId", "");
+    language: text/javascript

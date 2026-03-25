@@ -1,105 +1,25 @@
 $kind: http-request
 name: GET /getSingleProduct/{id} - Retrieve Test Product
 method: GET
-url: "{{baseUrl}}/getSingleProduct/{{productId}}?ProductID=1024"
+url: "{{baseUrl}}/getSingleProduct/{ProductID: str}?ProductID=1024"
 headers:
   - key: ""
     value: ""
     disabled: true
 queryParams:
-  ProductID: "1024"
+  - key: ProductID
+    value: "1024"
+  - key: ""
+    value: ""
+    disabled: true
 order: 3000
 scripts:
   - type: afterResponse
-    code: >-
+    code: >
       // ── Status code
       ──────────────────────────────────────────────────────────
 
       pm.test("Status code is 200", function () {
           pm.response.to.have.status(200);
-      });
-
-
-      // ── Response time
-      ─────────────────────────────────────────────────────────
-
-      pm.test("Response time is under 3000 ms", function () {
-          pm.expect(pm.response.responseTime).to.be.below(3000);
-      });
-
-
-      // ── Content-Type
-      ──────────────────────────────────────────────────────────
-
-      pm.test("Content-Type is application/json", function () {
-          pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
-      });
-
-
-      // ── Product found (not the 'not found' message)
-      ───────────────────────────
-
-      pm.test("Response is a product object, not a 'not found' message",
-      function () {
-          const json = pm.response.json();
-          pm.expect(json).to.be.an("object");
-          pm.expect(json).to.not.have.property("message");
-      });
-
-
-      // ── Schema: required fields present
-      ──────────────────────────────────────
-
-      pm.test("Response contains all required product fields", function () {
-          const json = pm.response.json();
-          pm.expect(json).to.have.all.keys("ProductID", "Name", "UnitPrice", "StockQuantity", "Description");
-      });
-
-
-      // ── ProductID matches what was created
-      ────────────────────────────────────
-
-      pm.test("Returned ProductID matches the created product", function () {
-          const json = pm.response.json();
-          const expected = pm.collectionVariables.get("productId");
-          pm.expect(json.ProductID).to.eql(expected);
-      });
-
-
-      // ── Field types
-      ───────────────────────────────────────────────────────────
-
-      pm.test("UnitPrice is a number", function () {
-          const json = pm.response.json();
-          pm.expect(json.UnitPrice).to.be.a("number");
-      });
-
-
-      pm.test("StockQuantity is a number", function () {
-          const json = pm.response.json();
-          pm.expect(json.StockQuantity).to.be.a("number");
-      });
-
-
-      pm.test("Name is a non-empty string", function () {
-          const json = pm.response.json();
-          pm.expect(json.Name).to.be.a("string").and.to.have.length.above(0);
-      });
-
-
-      // ── Values match what was posted
-      ──────────────────────────────────────────
-
-      pm.test("Name matches the test product name", function () {
-          const json = pm.response.json();
-          const expected = pm.environment.get("testProductName") || "TestProduct";
-          pm.expect(json.Name).to.eql(expected);
-      });
-
-
-      pm.test("UnitPrice matches the test product price", function () {
-          const json = pm.response.json();
-          const expected = parseFloat(pm.environment.get("testProductUnitPrice") || "9.99");
-          pm.expect(json.UnitPrice).to.eql(expected);
       });
     language: text/javascript

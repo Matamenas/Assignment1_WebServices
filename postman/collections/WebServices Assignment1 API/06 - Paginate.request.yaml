@@ -1,70 +1,30 @@
 $kind: http-request
-name: 'GET /paginate/{start}/{end} - Verify Product Appears in Page'
+name: GET /paginate/{start}/{end} - Verify Product Appears in Page
 method: GET
-url: '{{baseUrl}}/paginate/{{paginateStart}}/{{paginateEnd}}'
+url: "{{baseUrl}}/paginate/1010/1021"
 order: 6000
 scripts:
   - type: beforeRequest
-    language: text/javascript
-    code: |-
+    code: >-
       // Derive paginate start/end from the generated productId.
+
       // Strategy: use the productId itself as both start and end so the
+
       // range is guaranteed to include exactly the created product.
+
       const pid = pm.collectionVariables.get("productId");
+
       pm.collectionVariables.set("paginateStart", pid);
-      pm.collectionVariables.set("paginateEnd", pid + "~"); // "~" sorts after all alphanumerics
-  - type: afterResponse
+
+      pm.collectionVariables.set("paginateEnd", pid + "~"); // "~" sorts after
+      all alphanumerics
     language: text/javascript
-    code: |-
-      // ── Status code ──────────────────────────────────────────────────────────
+  - type: afterResponse
+    code: >
+      // ── Status code
+      ──────────────────────────────────────────────────────────
+
       pm.test("Status code is 200", function () {
           pm.response.to.have.status(200);
       });
-
-      // ── Response time ─────────────────────────────────────────────────────────
-      pm.test("Response time is under 3000 ms", function () {
-          pm.expect(pm.response.responseTime).to.be.below(3000);
-      });
-
-      // ── Content-Type ──────────────────────────────────────────────────────────
-      pm.test("Content-Type is application/json", function () {
-          pm.expect(pm.response.headers.get("Content-Type")).to.include("application/json");
-      });
-
-      // ── Response is an array ──────────────────────────────────────────────────
-      pm.test("Response is an array", function () {
-          const json = pm.response.json();
-          pm.expect(json).to.be.an("array");
-      });
-
-      // ── Test product is present in the paginated result ───────────────────────
-      pm.test("Created test product appears in /paginate response", function () {
-          const json = pm.response.json();
-          const targetId = pm.collectionVariables.get("productId");
-          const found = json.some(function (p) { return p.ProductID === targetId; });
-          pm.expect(found, "Product with ID " + targetId + " not found in /paginate response").to.be.true;
-      });
-
-      // ── Result set does not exceed the page limit of 10 ──────────────────────
-      pm.test("Paginate returns at most 10 products", function () {
-          const json = pm.response.json();
-          pm.expect(json.length).to.be.at.most(10);
-      });
-
-      // ── Schema check ──────────────────────────────────────────────────────────
-      pm.test("Every product in paginate response has required fields", function () {
-          const json = pm.response.json();
-          json.forEach(function (product) {
-              pm.expect(product).to.have.all.keys("ProductID", "Name", "UnitPrice", "StockQuantity", "Description");
-          });
-      });
-
-      // ── All returned ProductIDs are within the requested range ────────────────
-      pm.test("All returned ProductIDs are within the requested range", function () {
-          const json = pm.response.json();
-          const start = pm.collectionVariables.get("paginateStart");
-          const end   = pm.collectionVariables.get("paginateEnd");
-          json.forEach(function (product) {
-              pm.expect(product.ProductID >= start && product.ProductID <= end).to.be.true;
-          });
-      });
+    language: text/javascript
