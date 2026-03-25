@@ -1,0 +1,40 @@
+{
+	"id": "2ff053a7-fa64-52ba-915d-2705c0ac7b0a",
+	"name": "WebServicesAssignment1",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "testProductName",
+			"value": "TestProduct",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "testProductUnitPrice",
+			"value": "9.99",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "testProductStockQuantity",
+			"value": "50",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "testProductDescription",
+			"value": "A test product created by Postman automation",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-03-25T14:22:48.660Z",
+	"_postman_exported_using": "Postman/12.3.3"
+}

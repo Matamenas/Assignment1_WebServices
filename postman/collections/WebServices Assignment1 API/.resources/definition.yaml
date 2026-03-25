@@ -1,0 +1,55 @@
+$kind: collection
+name: WebServices Assignment1 API
+description: |-
+  Collection for the FastAPI + MongoDB Atlas product service.
+  Covers all endpoints with a full end-to-end workflow:
+  POST /addnew → GET /getSingleProduct → GET /getAll → GET /startsWith →
+  GET /paginate → GET /convert → DELETE /products → verify deletion.
+
+  NOTE: The route decorator in main.py contains a typo:
+    @app.get("/getSingleProduct/{ProductID: str}")
+  FastAPI registers this as the literal path "/getSingleProduct/{ProductID: str}".
+  The collection uses the corrected URL "/getSingleProduct/{{productId}}" which
+  matches the intended behaviour once the typo is fixed in the source code.
+variables:
+  - key: baseUrl
+    value: 'http://127.0.0.1:8000'
+    description: Base URL of the running FastAPI service
+  - key: productId
+    value: ''
+    description: Randomly generated ProductID used across the workflow
+  - key: productFirstLetter
+    value: ''
+    description: First letter of the test product name (set at runtime)
+  - key: originalUnitPrice
+    value: ''
+    description: UnitPrice sent in POST /addnew (set at runtime)
+  - key: deletedProductId
+    value: ''
+    description: Holds the productId after deletion for the verification step
+  - key: paginateStart
+    value: ''
+    description: Start ID for the paginate request (set at runtime)
+  - key: paginateEnd
+    value: ''
+    description: End ID for the paginate request (set at runtime)
+scripts:
+  - type: http:beforeRequest
+    language: text/javascript
+    code: |-
+      // Generate a unique ProductID once per collection run and store it.
+      // Subsequent requests read it from the collection variable.
+      if (!pm.collectionVariables.get("productId") || pm.collectionVariables.get("productId") === "") {
+          const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
+          const productId = "TEST-" + randomSuffix;
+          pm.collectionVariables.set("productId", productId);
+          console.log("Generated ProductID:", productId);
+      }
+
+      // Derive the first letter of the product name for the startsWith test.
+      const name = pm.environment.get("testProductName") || pm.collectionVariables.get("testProductName") || "TestProduct";
+      pm.collectionVariables.set("productFirstLetter", name.charAt(0));
+
+      // Cache the original unit price so the convert test can compare.
+      const price = pm.environment.get("testProductUnitPrice") || "9.99";
+      pm.collectionVariables.set("originalUnitPrice", price);
