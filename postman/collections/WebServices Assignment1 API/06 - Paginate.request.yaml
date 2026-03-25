@@ -1,7 +1,7 @@
 $kind: http-request
 name: GET /paginate/{start}/{end} - Verify Product Appears in Page
 method: GET
-url: "{{baseUrl}}/paginate/1010/1021"
+url: "{{baseUrl}}/paginate/{{paginateStart}}/{{paginateEnd}}"
 order: 6000
 scripts:
   - type: beforeRequest
@@ -18,7 +18,6 @@ scripts:
 
       pm.collectionVariables.set("paginateEnd", pid + "~"); // "~" sorts after
       all alphanumerics
-    language: text/javascript
   - type: afterResponse
     code: >
       // ── Status code
@@ -27,4 +26,3 @@ scripts:
       pm.test("Status code is 200", function () {
           pm.response.to.have.status(200);
       });
-    language: text/javascript

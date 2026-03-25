@@ -1,9 +1,7 @@
 $kind: http-request
 name: GET /startsWith/{letter} - Verify Product Appears by First Letter
 method: GET
-url: "{{baseUrl}}/startsWith/{{productFirstLetter}}?=T"
-queryParams:
-  "": T
+url: "{{baseUrl}}/startsWith/{{productFirstLetter}}"
 order: 5000
 scripts:
   - type: afterResponse
