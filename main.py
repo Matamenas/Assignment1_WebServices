@@ -49,7 +49,7 @@ async def add_new_product(product: Product):
     return {"message": "Product added successfully"}
 
 # Delete a product from the database
-@app.delete("/products/{ProductID}")
+@app.delete("/deleteproduct/{ProductID}")
 async def delete_product(ProductID: str):
     result = collection.delete_one({"ProductID": ProductID})
     if result.deleted_count == 0:

@@ -5,7 +5,7 @@ workspace:
 # Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
 cloudResources:
   environments:
-    ..\postman\environments\WebServicesAssignment1.yaml: 2ff053a7-fa64-52ba-915d-2705c0ac7b0a
+    ..\postman\environments\WebServicesAssignment1.environment.yaml: 2ff053a7-fa64-52ba-915d-2705c0ac7b0a
   collections:
     ..\postman\collections\WebServices Assignment1 API: 53490849-8d927b49-fd1a-4f38-a9a8-69320e4a4b53
 

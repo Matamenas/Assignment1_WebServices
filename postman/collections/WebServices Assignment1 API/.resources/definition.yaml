@@ -27,6 +27,8 @@ variables:
   productFirstLetter: ""
   originalUnitPrice: ""
   deletedProductId: ""
+  startPaginate: ""
+  endPaginate: ""
   paginateStart: ""
   paginateEnd: ""
 scripts:

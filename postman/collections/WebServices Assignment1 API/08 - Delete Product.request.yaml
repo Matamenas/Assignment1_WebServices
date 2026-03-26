@@ -1,7 +1,7 @@
 $kind: http-request
 name: DELETE /products/{id} - Delete Test Product
 method: DELETE
-url: "{{baseUrl}}/products/1200"
+url: "{{baseUrl}}/deleteproduct/1200"
 order: 8000
 scripts:
   - type: afterResponse
