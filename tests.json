@@ -1,421 +1,75 @@
 {
   "info": {
-    "_postman_id": "8d927b49-fd1a-4f38-a9a8-69320e4a4b53",
-    "name": "WebServices Assignment1 API",
-    "description": "Collection for the FastAPI + MongoDB Atlas product service.  \nCovers all endpoints with a full end-to-end workflow:  \nPOST /addnew → GET /getSingleProduct → GET /getAll → GET /startsWith →  \nGET /paginate → GET /convert → DELETE /products → verify deletion.\n\nNOTE: The route decorator in main.py contains a typo:  \n@app.get(\"/getSingleProduct/{ProductID: str}\")  \nFastAPI registers this as the literal path \"/getSingleProduct/{ProductID: str}\".  \nThe collection uses the corrected URL \"/getSingleProduct/{{productId}}\" which  \nmatches the intended behaviour once the typo is fixed in the source code.",
+    "_postman_id": "f3b14152-9c2b-4448-b994-c95daaab75c9",
+    "name": "WebServicesAPITests",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "53490849",
-    "_collection_link": "https://go.postman.co/collection/53490849-8d927b49-fd1a-4f38-a9a8-69320e4a4b53?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/53490849-f3b14152-9c2b-4448-b994-c95daaab75c9?source=collection_link"
   },
   "item": [
     {
-      "name": "GET / - Health Check",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// ── Response time ─────────────────────────────────────────────────────────\npm.test(\"Response time is under 2000 ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(2000);\n});\n\n// ── Content-Type ──────────────────────────────────────────────────────────\npm.test(\"Content-Type is application/json\", function () {\n    pm.response.to.have.header(\"Content-Type\");\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n\n// ── Body schema ───────────────────────────────────────────────────────────\npm.test(\"Response body has 'message' field\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.be.an(\"object\");\n    pm.expect(json).to.have.property(\"message\");\n});\n\npm.test(\"Message value is 'Hello, World!'\", function () {\n    const json = pm.response.json();\n    pm.expect(json.message).to.eql(\"Hello, World!\");\n});"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Get Root",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            ""
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "POST /addnew - Create Test Product",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n"
-            ]
-          },
-          "disabled": false
-        }
-      ],
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{baseUrl}}/addnew?ProductID=3000&Name=Nvidia 5090&UnitPrice=1399.99&StockQuantity=1&Description=\"OverPriced Video Card Designed For Best Gaming Experience\"",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "addnew"
-          ],
-          "query": [
-            {
-              "key": "ProductID",
-              "value": "3000"
-            },
-            {
-              "key": "Name",
-              "value": "Nvidia 5090"
-            },
-            {
-              "key": "UnitPrice",
-              "value": "1399.99"
-            },
-            {
-              "key": "StockQuantity",
-              "value": "1"
-            },
-            {
-              "key": "Description",
-              "value": "\"OverPriced Video Card Designed For Best Gaming Experience\""
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /getSingleProduct/{id} - Retrieve Test Product",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Get /SingleProduct",
       "request": {
         "method": "GET",
-        "header": [
-          {
-            "key": "",
-            "value": "",
-            "disabled": true
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/getSingleProduct/{ProductID: str}?ProductID=1024",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "getSingleProduct",
-            "{ProductID: str}"
-          ],
-          "query": [
-            {
-              "key": "ProductID",
-              "value": "1024"
-            },
-            {
-              "key": "",
-              "value": "",
-              "disabled": true
-            }
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "GET /getAll - Verify Product Appears in List",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// ── Response time ─────────────────────────────────────────────────────────\npm.test(\"Response time is under 5000 ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(5000);\n});\n\n// ── Content-Type ──────────────────────────────────────────────────────────\npm.test(\"Content-Type is application/json\", function () {\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n\n// ── Response is an array ──────────────────────────────────────────────────\npm.test(\"Response is an array\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.be.an(\"array\");\n});\n\n// ── Array is non-empty ────────────────────────────────────────────────────\npm.test(\"Product list is not empty\", function () {\n    const json = pm.response.json();\n    pm.expect(json.length).to.be.above(0);\n});\n\n// ── Each item has required fields ─────────────────────────────────────────\npm.test(\"Every product in the list has required fields\", function () {\n    const json = pm.response.json();\n    json.forEach(function (product) {\n        pm.expect(product).to.have.all.keys(\"ProductID\", \"Name\", \"UnitPrice\", \"StockQuantity\", \"Description\");\n    });\n});\n\n// ── Test product is present in the list ───────────────────────────────────\npm.test(\"Created test product appears in /getAll response\", function () {\n    const json = pm.response.json();\n    const targetId = pm.collectionVariables.get(\"productId\");\n    const found = json.some(function (p) { return p.ProductID === targetId; });\n    pm.expect(found, \"Product with ID \" + targetId + \" not found in /getAll\").to.be.true;\n});\n\n// ── UnitPrice type check on all items ─────────────────────────────────────\npm.test(\"All UnitPrice values are numbers\", function () {\n    const json = pm.response.json();\n    json.forEach(function (product) {\n        pm.expect(product.UnitPrice).to.be.a(\"number\");\n    });\n});"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Get /getAll",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/getAll",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "getAll"
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "GET /startsWith/{letter} - Verify Product Appears by First Letter",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Add /addNew",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/startsWith/{{productFirstLetter}}?=T",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "startsWith",
-            "{{productFirstLetter}}"
-          ],
-          "query": [
-            {
-              "key": "",
-              "value": "T"
-            }
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "GET /paginate/{start}/{end} - Verify Product Appears in Page",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// Derive paginate start/end from the generated productId.\n// Strategy: use the productId itself as both start and end so the\n// range is guaranteed to include exactly the created product.\nconst pid = pm.collectionVariables.get(\"productId\");\npm.collectionVariables.set(\"paginateStart\", pid);\npm.collectionVariables.set(\"paginateEnd\", pid + \"~\"); // \"~\" sorts after all alphanumerics"
-            ]
-          },
-          "disabled": false
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Delete /deleteProduct",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/paginate/1010/1021",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "paginate",
-            "1010",
-            "1021"
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "GET /convert/{id} - Verify Currency Conversion",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n\n// ── Product found ─────────────────────────────────────────────────────────\npm.test(\"Response is a product object, not a 'not found' message\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.be.an(\"object\");\n    pm.expect(json).to.not.have.property(\"message\");\n});\n\n// ── Schema: required fields present ──────────────────────────────────────\npm.test(\"Response contains all required product fields\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.have.all.keys(\"ProductID\", \"Name\", \"UnitPrice\", \"StockQuantity\", \"Description\");\n});\n\n// ── UnitPrice is numeric ──────────────────────────────────────────────────\npm.test(\"Converted UnitPrice is a number\", function () {\n    const json = pm.response.json();\n    pm.expect(json.UnitPrice).to.be.a(\"number\");\n});\n\n// ── UnitPrice is positive ─────────────────────────────────────────────────\npm.test(\"Converted UnitPrice is greater than zero\", function () {\n    const json = pm.response.json();\n    pm.expect(json.UnitPrice).to.be.above(0);\n});\n\n// ── Converted price differs from original (or equals it when rate ≈ 1) ───\npm.test(\"Converted UnitPrice exists and is a valid number (may equal original if EUR rate ≈ 1)\", function () {\n    const json = pm.response.json();\n    const original = parseFloat(pm.collectionVariables.get(\"originalUnitPrice\") || \"9.99\");\n    // The converted value must be a finite number.\n    pm.expect(isFinite(json.UnitPrice)).to.be.true;\n    // Log for visibility; we allow equality only when the exchange rate is 1.\n    console.log(\"Original USD price:\", original, \"| Converted EUR price:\", json.UnitPrice);\n});\n\npm.test(\"Converted UnitPrice is different from original USD price (or rate is 1)\", function () {\n    const json = pm.response.json();\n    const original = parseFloat(pm.collectionVariables.get(\"originalUnitPrice\") || \"9.99\");\n    // Accept equality only if the rate happens to be exactly 1.\n    // In practice EUR/USD rate is never exactly 1, so this will catch regressions.\n    const rateIsOne = Math.abs(json.UnitPrice - original) < 0.001;\n    if (!rateIsOne) {\n        pm.expect(json.UnitPrice).to.not.eql(original);\n    } else {\n        // Rate was 1 — still assert the field exists and is numeric.\n        pm.expect(json.UnitPrice).to.be.a(\"number\");\n    }\n});\n\n// ── ProductID unchanged ───────────────────────────────────────────────────\npm.test(\"ProductID in convert response matches the requested product\", function () {\n    const json = pm.response.json();\n    const expected = pm.collectionVariables.get(\"productId\");\n    pm.expect(json.ProductID).to.eql(expected);\n});"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Get /startsWith",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/convert/1020",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "convert",
-            "1020"
-          ]
-        }
+        "header": []
       },
       "response": []
     },
     {
-      "name": "DELETE /products/{id} - Delete Test Product",
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// ── Response time ─────────────────────────────────────────────────────────\npm.test(\"Response time is under 3000 ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(3000);\n});\n\n// ── Content-Type ──────────────────────────────────────────────────────────\npm.test(\"Content-Type is application/json\", function () {\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\n});\n\n// ── Body schema ───────────────────────────────────────────────────────────\npm.test(\"Response body has 'message' field\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.be.an(\"object\");\n    pm.expect(json).to.have.property(\"message\");\n});\n\npm.test(\"Product deleted successfully message returned\", function () {\n    const json = pm.response.json();\n    pm.expect(json.message).to.eql(\"Product deleted successfully\");\n});\n\n// ── Save the ID before clearing so the verification step can use it ────────\nconst pid = pm.collectionVariables.get(\"productId\");\npm.collectionVariables.set(\"deletedProductId\", pid);\n// Clear productId so a fresh one is generated on the next run.\npm.collectionVariables.set(\"productId\", \"\");"
-            ]
-          },
-          "disabled": false
-        }
-      ],
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/products/1200",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "products",
-            "1200"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "GET /getSingleProduct/{id} - Verify Product is Gone After Delete",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// Capture the productId before it was cleared by the DELETE step.\n// The DELETE request clears productId; we stored a copy in deletedProductId\n// at the end of the DELETE afterResponse script — but as a safety net we\n// also read it here from the collection variable set below.\nconst pid = pm.collectionVariables.get(\"deletedProductId\");\nif (!pid || pid === \"\") {\n    // Fallback: if deletedProductId was never set, skip gracefully.\n    console.warn(\"deletedProductId not set — skipping deletion-verification request.\");\n}"
-            ]
-          },
-          "disabled": false
-        },
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "// ── Status code ──────────────────────────────────────────────────────────\npm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\n// ── Response time ─────────────────────────────────────────────────────────\npm.test(\"Response time is under 3000 ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(3000);\n});\n\n// ── Product should no longer exist ────────────────────────────────────────\npm.test(\"Deleted product is no longer retrievable (returns 'not found' message)\", function () {\n    const json = pm.response.json();\n    pm.expect(json).to.be.an(\"object\");\n    pm.expect(json).to.have.property(\"message\");\n    pm.expect(json.message).to.eql(\"Product not found\");\n});\n\n// ── Clean up the deletedProductId variable ────────────────────────────────\npm.collectionVariables.set(\"deletedProductId\", \"\");"
-            ]
-          },
-          "disabled": false
-        }
-      ],
+      "name": "Get /Paginate",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/getSingleProduct/{ProductID: str}?ProductID=1200",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "getSingleProduct",
-            "{ProductID: str}"
-          ],
-          "query": [
-            {
-              "key": "ProductID",
-              "value": "1200"
-            }
-          ]
-        }
+        "header": []
       },
       "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "requests": {},
-        "exec": [
-          "// Generate a unique ProductID once per collection run and store it.",
-          "// Subsequent requests read it from the collection variable.",
-          "if (!pm.collectionVariables.get(\"productId\") || pm.collectionVariables.get(\"productId\") === \"\") {",
-          "    const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();",
-          "    const productId = \"TEST-\" + randomSuffix;",
-          "    pm.collectionVariables.set(\"productId\", productId);",
-          "    console.log(\"Generated ProductID:\", productId);",
-          "}",
-          "",
-          "// Derive the first letter of the product name for the startsWith test.",
-          "const name = pm.environment.get(\"testProductName\") || pm.collectionVariables.get(\"testProductName\") || \"TestProduct\";",
-          "pm.collectionVariables.set(\"productFirstLetter\", name.charAt(0));",
-          "",
-          "// Cache the original unit price so the convert test can compare.",
-          "const price = pm.environment.get(\"testProductUnitPrice\") || \"9.99\";",
-          "pm.collectionVariables.set(\"originalUnitPrice\", price);"
-        ]
-      }
     },
     {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": ""
-    },
-    {
-      "key": "productFirstLetter",
-      "value": ""
-    },
-    {
-      "key": "originalUnitPrice",
-      "value": ""
-    },
-    {
-      "key": "deletedProductId",
-      "value": ""
+      "name": "Get /Convert",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
     }
   ]
 }

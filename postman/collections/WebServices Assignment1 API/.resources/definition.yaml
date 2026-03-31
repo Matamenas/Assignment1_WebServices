@@ -23,30 +23,15 @@ description: >-
   matches the intended behaviour once the typo is fixed in the source code.
 variables:
   baseUrl: http://127.0.0.1:8000
-  productId: ""
   productFirstLetter: ""
   originalUnitPrice: ""
-  deletedProductId: ""
   startPaginate: ""
   endPaginate: ""
-  paginateStart: ""
-  paginateEnd: ""
+  ProductID: ""
 scripts:
   - type: http:beforeRequest
     code: >-
-      // Generate a unique ProductID once per collection run and store it.
-
-      // Subsequent requests read it from the collection variable.
-
-      if (!pm.collectionVariables.get("productId") ||
-      pm.collectionVariables.get("productId") === "") {
-          const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
-          const productId = "TEST-" + randomSuffix;
-          pm.collectionVariables.set("productId", productId);
-          console.log("Generated ProductID:", productId);
-      }
-
-
+      
       // Derive the first letter of the product name for the startsWith test.
 
       const name = pm.environment.get("testProductName") ||

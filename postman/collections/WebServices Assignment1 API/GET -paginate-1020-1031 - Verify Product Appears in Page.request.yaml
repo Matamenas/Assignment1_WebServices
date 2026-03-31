@@ -1,5 +1,5 @@
 $kind: http-request
-name: GET /paginate/{start}/{end} - Verify Product Appears in Page
+name: GET /paginate/1020/1031 - Verify Product Appears in Page
 method: GET
 url: "{{baseUrl}}/paginate/{{paginateStart}}/{{paginateEnd}}"
 order: 6000
