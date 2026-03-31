@@ -367,34 +367,55 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
+        "requests": {},
         "exec": [
-          "// Generate a unique ProductID once per collection run and store it.\n// Subsequent requests read it from the collection variable.\nif (!pm.collectionVariables.get(\"productId\") || pm.collectionVariables.get(\"productId\") === \"\") {\n    const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();\n    const productId = \"TEST-\" + randomSuffix;\n    pm.collectionVariables.set(\"productId\", productId);\n    console.log(\"Generated ProductID:\", productId);\n}\n\n// Derive the first letter of the product name for the startsWith test.\nconst name = pm.environment.get(\"testProductName\") || pm.collectionVariables.get(\"testProductName\") || \"TestProduct\";\npm.collectionVariables.set(\"productFirstLetter\", name.charAt(0));\n\n// Cache the original unit price so the convert test can compare.\nconst price = pm.environment.get(\"testProductUnitPrice\") || \"9.99\";\npm.collectionVariables.set(\"originalUnitPrice\", price);"
+          "// Generate a unique ProductID once per collection run and store it.",
+          "// Subsequent requests read it from the collection variable.",
+          "if (!pm.collectionVariables.get(\"productId\") || pm.collectionVariables.get(\"productId\") === \"\") {",
+          "    const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();",
+          "    const productId = \"TEST-\" + randomSuffix;",
+          "    pm.collectionVariables.set(\"productId\", productId);",
+          "    console.log(\"Generated ProductID:\", productId);",
+          "}",
+          "",
+          "// Derive the first letter of the product name for the startsWith test.",
+          "const name = pm.environment.get(\"testProductName\") || pm.collectionVariables.get(\"testProductName\") || \"TestProduct\";",
+          "pm.collectionVariables.set(\"productFirstLetter\", name.charAt(0));",
+          "",
+          "// Cache the original unit price so the convert test can compare.",
+          "const price = pm.environment.get(\"testProductUnitPrice\") || \"9.99\";",
+          "pm.collectionVariables.set(\"originalUnitPrice\", price);"
         ]
-      },
-      "disabled": false
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ],
   "variable": [
     {
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": ""
     },
     {
-      "key": "productId"
+      "key": "productFirstLetter",
+      "value": ""
     },
     {
-      "key": "productFirstLetter"
+      "key": "originalUnitPrice",
+      "value": ""
     },
     {
-      "key": "originalUnitPrice"
-    },
-    {
-      "key": "deletedProductId"
-    },
-    {
-      "key": "paginateStart"
-    },
-    {
-      "key": "paginateEnd"
+      "key": "deletedProductId",
+      "value": ""
     }
   ]
 }
