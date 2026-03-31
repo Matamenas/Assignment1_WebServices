@@ -1,73 +1,391 @@
 {
   "info": {
-    "_postman_id": "f3b14152-9c2b-4448-b994-c95daaab75c9",
-    "name": "WebServicesAPITests",
+    "_postman_id": "cab08327-ba17-4f18-af06-07abd62496da",
+    "name": "FastAPI Product API",
+    "description": "Collection to test all FastAPI routes for your products API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "53490849",
-    "_collection_link": "https://go.postman.co/collection/53490849-f3b14152-9c2b-4448-b994-c95daaab75c9?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/53490849-cab08327-ba17-4f18-af06-07abd62496da?source=collection_link"
   },
   "item": [
     {
-      "name": "Get Root",
+      "name": "Root",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has message 'Hello, World!'\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.message).to.eql(\"Hello, World!\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            ""
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Get /SingleProduct",
+      "name": "Get All Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an array\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/getAll",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "getAll"
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Get /getAll",
+      "name": "Get Single Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains ProductID\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"ProductID\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/getSingleProduct/{ProductID: str}?ProductID=1020",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "getSingleProduct",
+            "{ProductID: str}"
+          ],
+          "query": [
+            {
+              "key": "ProductID",
+              "value": "1020"
+            }
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Add /addNew",
+      "name": "Add New Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product added successfully\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.message).to.eql(\"Product added successfully\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ProductID\": \"101\",\n  \"Name\": \"Sample Product\",\n  \"UnitPrice\": 10.5,\n  \"StockQuantity\": 50,\n  \"Description\": \"Test product\"\n}"
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/addnew?ProductID=\"1200\"&Name=\"Nvidia 5090\"&UnitPrice=1399.99&StockQuantity=1&Description=\"OverPriced Video Card Designed For Best Gaming Experience\"",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "addnew"
+          ],
+          "query": [
+            {
+              "key": "ProductID",
+              "value": "\"1200\""
+            },
+            {
+              "key": "Name",
+              "value": "\"Nvidia 5090\""
+            },
+            {
+              "key": "UnitPrice",
+              "value": "1399.99"
+            },
+            {
+              "key": "StockQuantity",
+              "value": "1"
+            },
+            {
+              "key": "Description",
+              "value": "\"OverPriced Video Card Designed For Best Gaming Experience\""
+            }
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Delete /deleteProduct",
+      "name": "Delete Product",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Check deletion message\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect([\"Product deleted successfully\", \"Product not found\"]).to.include(jsonData.message);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
-        "method": "GET",
-        "header": []
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/deleteproduct/1200",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "deleteproduct",
+            "1200"
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Get /startsWith",
+      "name": "Get Products Starting With Letter",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an array\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/startsWith/T",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "startsWith",
+            "T"
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Get /Paginate",
+      "name": "Paginate Products",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an array of max 10 products\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an(\"array\");\r",
+              "    pm.expect(jsonData.length).to.be.at.most(10);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/paginate/1020/1031",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "paginate",
+            "1020",
+            "1031"
+          ]
+        }
       },
       "response": []
     },
     {
-      "name": "Get /Convert",
+      "name": "Convert Price to EUR",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has UnitPrice in EUR\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property(\"UnitPrice\");\r",
+              "    pm.expect(jsonData.UnitPrice).to.be.a(\"number\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "GET",
-        "header": []
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/convert/1022",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "convert",
+            "1022"
+          ]
+        }
       },
       "response": []
     }
