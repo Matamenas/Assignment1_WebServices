@@ -1,6 +1,5 @@
 # Use Python base image
 FROM python:3.10
-FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
@@ -8,8 +7,6 @@ WORKDIR /app
 # Copy files
 COPY . .
 
-#install Newman
-RUN npm install -g newman
 
 # Install dependencies
 RUN pip install --no-cache-dir fastapi uvicorn pymongo requests
