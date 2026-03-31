@@ -1,5 +1,6 @@
 # Use Python base image
 FROM python:3.10
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
