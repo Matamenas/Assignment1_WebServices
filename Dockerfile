@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 #install Newman
-Run npm install -g newman
+RUN npm install -g newman
 
 # Install dependencies
 RUN pip install --no-cache-dir fastapi uvicorn pymongo requests
