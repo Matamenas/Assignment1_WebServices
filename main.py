@@ -41,11 +41,25 @@ async def get_all_products():
     products = list(collection.find({}, {"_id": 0}))
     return products
 
-
-# Add a product to the database
+# add new product to the database
 @app.post("/addnew")
-async def add_new_product(product: Product):
-    collection.insert_one(product.dict())
+async def add_new_product(
+    ProductID: str,
+    Name: str,
+    UnitPrice: float,
+    StockQuantity: int,
+    Description: str
+):
+    product = {
+        "ProductID": ProductID,
+        "Name": Name,
+        "UnitPrice": UnitPrice,
+        "StockQuantity": StockQuantity,
+        "Description": Description
+    }
+
+    collection.insert_one(product)
+
     return {"message": "Product added successfully"}
 
 # Delete a product from the database
